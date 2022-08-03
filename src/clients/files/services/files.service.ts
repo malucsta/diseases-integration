@@ -3,17 +3,16 @@ import axios from 'axios';
 import * as FormData from 'form-data';
 import { FileResponse } from '../models/file';
 import config from '../../../../config/default';
+import { FileResponseError } from 'src/common/errors/types/files.error';
+import * as HTTPUtil from '../../../common/util/request';
+import { ClientRequestError } from 'src/common/errors/types/client.error';
 
 @Injectable()
 export class FilesService {
   private async getServer(): Promise<string> {
-    try {
-      return await axios(`https://api.gofile.io/getServer`).then((response) => {
-        return response.data.data.server;
-      });
-    } catch (err) {
-      console.log(err);
-    }
+    return await axios(`https://api.gofile.io/getServer`).then((response) => {
+      return response.data.data.server;
+    });
   }
 
   async sendFile(
@@ -35,11 +34,13 @@ export class FilesService {
         data: respose.data.data,
       };
 
+      if (data.status != 'ok') throw new Error(data.status);
+
       return data;
     } catch (err) {
-      console.log(err.response.data);
-      //err.response.data = { status: 'error-token', data: {} }
-      //err.response.status = number
+      if (err instanceof Error && HTTPUtil.Request.isRequestError(err))
+        throw new FileResponseError(err);
+      throw new ClientRequestError(err, 'GoFile');
     }
   }
 

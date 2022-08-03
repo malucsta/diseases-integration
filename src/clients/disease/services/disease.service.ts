@@ -23,7 +23,7 @@ export class DiseaseService {
       if (err instanceof Error && HTTPUtil.Request.isRequestError(err))
         throw new DiseaseResponseError(err);
 
-      throw new ClientRequestError(err);
+      throw new ClientRequestError(err, 'Disease.sh');
     }
   }
 

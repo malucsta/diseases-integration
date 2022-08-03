@@ -1,5 +1,12 @@
 import { AxiosError } from 'axios';
 import { ErrorResponse } from 'src/common/errors/types/general.error';
+import { formatError } from './formatError';
+
+export enum ProviderAPI {
+  Disease = 'Disease.sh',
+  GoFile = 'GoFile',
+  None = 'None',
+}
 
 export class Request {
   public static isRequestError(error: Error): boolean {
@@ -8,14 +15,24 @@ export class Request {
     );
   }
 
-  public static extractErrorData(error: unknown): ErrorResponse {
+  public static extractErrorData(
+    error: unknown,
+    providerAPI: ProviderAPI,
+  ): ErrorResponse {
     const axiosError = error as AxiosError;
 
     if (axiosError.response && axiosError.response.status) {
-      return {
-        message: JSON.stringify(axiosError.response.data),
-        code: axiosError.response.status.toString(),
-      };
+      if (providerAPI === ProviderAPI.Disease)
+        return {
+          message: formatError(JSON.stringify(axiosError.response.data)),
+          code: axiosError.response.status.toString(),
+        };
+
+      if (providerAPI == ProviderAPI.GoFile)
+        return {
+          message: JSON.parse(JSON.stringify(axiosError.response.data)).status,
+          code: axiosError.response.status.toString(),
+        };
     }
 
     if (error instanceof Error) {

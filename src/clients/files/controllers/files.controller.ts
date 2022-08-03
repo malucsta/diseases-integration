@@ -9,8 +9,10 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { FilesService } from '../services/files.service';
 import { Express } from 'express';
 import { FileResponse } from '../models/file';
+import { ExceptionInterceptor } from 'src/common/errors/interceptors/exception.interceptor';
 
 @Controller('files')
+@UseInterceptors(ExceptionInterceptor)
 export class FilesController {
   constructor(private readonly filesService: FilesService) {}
   @Post('upload/:folder')
