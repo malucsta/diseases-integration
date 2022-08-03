@@ -1,12 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import config from '../../../../config/default';
-import {
-  ClientRequestError,
-  DiseaseResponseError,
-} from '../errors/disease.error';
+import { DiseaseResponseError } from '../../../common/errors/types/disease.error';
 import { DiseaseInfo, DiseaseResponse } from '../models/disease';
-import * as HTTPUtil from '../../../util/request';
+import { ClientRequestError } from 'src/common/errors/types/client.error';
+import * as HTTPUtil from '../../../common/util/request';
 
 @Injectable()
 export class DiseaseService {
@@ -22,13 +20,10 @@ export class DiseaseService {
 
       return this.normalizeResponse(data);
     } catch (err) {
-      if (err instanceof Error && HTTPUtil.Request.isRequestError(err)) {
-        const error = HTTPUtil.Request.extractErrorData(err);
-        throw new DiseaseResponseError(error);
-      } else {
-        if (err.code) throw new ClientRequestError(err.code);
-        throw new ClientRequestError(err);
-      }
+      if (err instanceof Error && HTTPUtil.Request.isRequestError(err))
+        throw new DiseaseResponseError(err);
+
+      throw new ClientRequestError(err);
     }
   }
 

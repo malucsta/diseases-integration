@@ -1,12 +1,6 @@
-import {
-  Controller,
-  Get,
-  HttpException,
-  Param,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
 import { DiseaseService } from '../services/disease.service';
-import { ExceptionInterceptor } from '../errors/disease.error';
+import { ExceptionInterceptor } from '../../../common/errors/interceptors/exception.interceptor';
 
 @Controller('disease')
 export class DiseaseController {
