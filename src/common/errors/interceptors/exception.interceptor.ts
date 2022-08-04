@@ -2,6 +2,7 @@ import {
   CallHandler,
   ExecutionContext,
   Injectable,
+  InternalServerErrorException,
   NestInterceptor,
 } from '@nestjs/common';
 import { catchError, Observable } from 'rxjs';
@@ -14,7 +15,10 @@ export class ExceptionInterceptor implements NestInterceptor {
       catchError(async (error) => {
         const message = JSON.stringify(JSON.parse(error.message).message);
         const code = JSON.parse(error.message).code;
-        throw new APIException(message, code);
+        if (error instanceof APIException)
+          throw new APIException(message, code);
+
+        throw new InternalServerErrorException(error);
       }),
     );
   }

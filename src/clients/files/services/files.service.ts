@@ -10,20 +10,23 @@ import { ClientRequestError } from 'src/common/errors/types/client.error';
 @Injectable()
 export class FilesService {
   private async getServer(): Promise<string> {
-    return await axios(`https://api.gofile.io/getServer`).then((response) => {
+    const url = `https://api.gofile.io/getServer`;
+
+    return await axios(url).then((response) => {
       return response.data.data.server;
     });
   }
 
   async sendFile(
-    file: Express.Multer.File,
+    fileBuffer: Buffer,
+    fileName: string,
     folder: string,
   ): Promise<FileResponse> {
     try {
       const server = await this.getServer();
       const pathAPI = `https://${server}.gofile.io/uploadFile`;
 
-      const formData = this.generateFormData(file, folder);
+      const formData = this.generateFormData(fileBuffer, fileName, folder);
 
       const respose = await axios.post(pathAPI, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
@@ -45,14 +48,15 @@ export class FilesService {
   }
 
   private generateFormData(
-    file: Express.Multer.File,
+    fileBuffer: Buffer,
+    fileName: string,
     folder: string,
   ): FormData {
     const formData = new FormData();
     formData.append('token', config.goFileToken);
     formData.append('folderId', folder);
-    formData.append('file', file.buffer, {
-      filename: file.originalname,
+    formData.append('file', fileBuffer, {
+      filename: fileName,
     });
 
     return formData;

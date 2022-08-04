@@ -35,7 +35,7 @@ export class Request {
         };
     }
 
-    if (error instanceof Error) {
+    if (error instanceof Error || error) {
       const errorString = error.toString();
       const errorTag = 'Error: ';
       const message = errorString.slice(

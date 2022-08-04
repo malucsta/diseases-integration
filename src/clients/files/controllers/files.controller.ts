@@ -15,12 +15,17 @@ import { ExceptionInterceptor } from 'src/common/errors/interceptors/exception.i
 @UseInterceptors(ExceptionInterceptor)
 export class FilesController {
   constructor(private readonly filesService: FilesService) {}
+
   @Post('upload/:folder')
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(
     @UploadedFile() file: Express.Multer.File,
     @Param('folder') folder: string,
   ): Promise<FileResponse> {
-    return await this.filesService.sendFile(file, folder);
+    return await this.filesService.sendFile(
+      file.buffer,
+      file.originalname,
+      folder,
+    );
   }
 }

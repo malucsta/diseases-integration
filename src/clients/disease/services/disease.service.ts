@@ -10,8 +10,6 @@ import * as HTTPUtil from '../../../common/util/request';
 export class DiseaseService {
   public async fetchInfo(country: string) {
     try {
-      country = this.normalizeCountry(country);
-
       const data: DiseaseResponse = await axios(
         `${config.baseURL}${country}`,
       ).then((response) => {
@@ -50,47 +48,5 @@ export class DiseaseService {
       response.active != null &&
       response.critical != null
     );
-  }
-
-  private normalizeCountry(country: string): string {
-    country = country.toLowerCase();
-
-    switch (country) {
-      case 'usa':
-        return country;
-
-      case 'eua':
-        return 'usa';
-
-      case 'estadosunidos':
-        return 'usa';
-
-      case 'unitedstates':
-        return 'usa';
-
-      case 'brazil':
-        return country;
-
-      case 'br':
-        return 'brazil';
-
-      case 'brasil':
-        return 'brazil';
-
-      case 'china':
-        return country;
-
-      case 'cn':
-        return 'china';
-
-      case 'russia':
-        return country;
-
-      case 'ru':
-        return 'russia';
-
-      default:
-        return null;
-    }
   }
 }

@@ -8,4 +8,6 @@ export default {
   goFileToken: `${process.env.TOKEN}`,
   folder_USABR: `${process.env.FOLDER_ID_USABR}`,
   folder_RUCH: `${process.env.FOLDER_ID_RUCH}`,
+  firstcountryArray: ['brazil', 'usa'],
+  secondcountryArray: ['russia', 'china'],
 };
