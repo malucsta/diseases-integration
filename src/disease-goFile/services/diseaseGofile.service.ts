@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { FileHelper, FileInfo } from 'src/common/util/fileHelper';
+import config from '../../../config/default';
 import { DiseaseService } from '../clients/disease/services/disease.service';
 import { GoFileService } from '../clients/goFile/services/goFile.service';
-import config from '../../../config/default';
 
 export type FilesToExport = Array<FileData>;
 export interface FileData {

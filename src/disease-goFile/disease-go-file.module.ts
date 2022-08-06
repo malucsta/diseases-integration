@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { ClientsModule } from 'src/disease-goFile/clients/clients.module';
+import { DiseaseService } from './clients/disease/services/disease.service';
+import { GoFileService } from './clients/goFile/services/goFile.service';
 import { DiseaseGoFileService } from './services/diseaseGofile.service';
 import { TaskCron } from './tasks/task.cron';
 
 @Module({
-  imports: [ClientsModule],
-  providers: [DiseaseGoFileService, TaskCron],
+  providers: [DiseaseService, GoFileService, DiseaseGoFileService, TaskCron],
 })
 export class DiseaseGoFileModule {}
