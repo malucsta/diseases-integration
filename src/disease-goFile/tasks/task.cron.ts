@@ -13,7 +13,7 @@ export class TaskCron {
 
   constructor(private readonly service: DiseaseGoFileService) {}
 
-  @Cron(CronExpression.EVERY_10_SECONDS)
+  @Cron(CronExpression.EVERY_DAY_AT_7PM)
   async handler() {
     try {
       const firstFile: FileData = {
