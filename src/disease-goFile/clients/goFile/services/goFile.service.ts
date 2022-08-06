@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import * as FormData from 'form-data';
-import { FileResponse } from '../models/file';
-import config from '../../../../config/default';
+import { GoFileResponse } from '../models/goFile';
+import config from '../../../../../config/default';
 import { FileResponseError } from 'src/common/errors/types/files.error';
-import * as HTTPUtil from '../../../common/util/request';
+import * as HTTPUtil from '../../../../common/util/request';
 import { ClientRequestError } from 'src/common/errors/types/client.error';
 
 @Injectable()
-export class FilesService {
+export class GoFileService {
   private async getServer(): Promise<string> {
     const url = `https://api.gofile.io/getServer`;
 
@@ -21,7 +21,7 @@ export class FilesService {
     fileBuffer: Buffer,
     fileName: string,
     folder: string,
-  ): Promise<FileResponse> {
+  ): Promise<GoFileResponse> {
     try {
       const server = await this.getServer();
       const pathAPI = `https://${server}.gofile.io/uploadFile`;
@@ -32,7 +32,7 @@ export class FilesService {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
-      const data: FileResponse = {
+      const data: GoFileResponse = {
         status: respose.data.status,
         data: respose.data.data,
       };
@@ -53,6 +53,7 @@ export class FilesService {
     folder: string,
   ): FormData {
     const formData = new FormData();
+
     formData.append('token', config.goFileToken);
     formData.append('folderId', folder);
     formData.append('file', fileBuffer, {

@@ -1,12 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UseInterceptors } from '@nestjs/common';
 import axios from 'axios';
-import config from '../../../../config/default';
-import { DiseaseResponseError } from '../../../common/errors/types/disease.error';
+import config from '../../../../../config/default';
+import { DiseaseResponseError } from '../../../../common/errors/types/disease.error';
 import { DiseaseInfo, DiseaseResponse } from '../models/disease';
 import { ClientRequestError } from 'src/common/errors/types/client.error';
-import * as HTTPUtil from '../../../common/util/request';
+import * as HTTPUtil from '../../../../common/util/request';
+import { ExceptionInterceptor } from 'src/common/errors/interceptors/exception.interceptor';
 
 @Injectable()
+@UseInterceptors(ExceptionInterceptor)
 export class DiseaseService {
   public async fetchInfo(country: string) {
     try {
@@ -37,7 +39,7 @@ export class DiseaseService {
       };
     }
 
-    throw Error;
+    throw Error('Invalid response');
   }
 
   private isValidResponse(response: DiseaseResponse): boolean {

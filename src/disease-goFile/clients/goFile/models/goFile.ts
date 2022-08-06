@@ -1,9 +1,9 @@
-export interface FileResponse {
+export interface GoFileResponse {
   status: string;
-  data: FileResponseData;
+  data: GoFileResponseData;
 }
 
-export interface FileResponseData {
+export interface GoFileResponseData {
   downloadPage: string;
   code: string;
   parentFolder: string;
