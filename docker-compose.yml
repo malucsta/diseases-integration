@@ -14,10 +14,3 @@ services:
       POSTGRES_PASSWORD: ${db_password}
       POSTGRES_USER: ${db_username}
       POSTGRES_DB: ${db_name}
-
-  adminer:
-    image: adminer
-    container_name: adminer
-    restart: always
-    ports:
-      - 8080:8080
