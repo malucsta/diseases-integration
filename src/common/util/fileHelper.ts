@@ -32,7 +32,10 @@ export class FileHelper {
 
     await csvWriter.writeRecords(json);
 
-    return { filename: filename, filepath: filepath };
+    return {
+      filename: filename,
+      filepath: filepath,
+    };
   }
 
   private static generateFileName() {

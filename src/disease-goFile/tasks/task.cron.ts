@@ -13,9 +13,14 @@ export class TaskCron {
 
   constructor(private readonly service: DiseaseGoFileService) {}
 
-  @Cron(CronExpression.EVERY_DAY_AT_7PM)
+  @Cron(CronExpression.EVERY_DAY_AT_7PM, {
+    timeZone: 'America/Sao_Paulo',
+  })
   async handler() {
     try {
+      if ((await this.service.checkFileLog()) != 0)
+        throw new Error('Files already exported for today');
+
       const firstFile: FileData = {
         countries: config.firstcountryArray,
         folder: config.folder_USABR,
@@ -26,8 +31,11 @@ export class TaskCron {
         folder: config.folder_RUCH,
       };
 
-      await this.service.sendFiles([firstFile, secondFile]);
+      const fileArray = [firstFile, secondFile];
+
+      await this.service.sendFiles(fileArray);
       this.logger.log('Finished sending files');
+      await this.service.checkFileLog(fileArray.length);
     } catch (error) {
       throw new CronError(error);
     }

@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 export default {
-  port: `${process.env.PORT}`,
+  api_port: Number(`${process.env.API_PORT}`),
   baseURL: 'https://disease.sh/v3/covid-19/countries/',
   goFileToken: `${process.env.TOKEN}`,
   folder_USABR: `${process.env.FOLDER_ID_USABR}`,

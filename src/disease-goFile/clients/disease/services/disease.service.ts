@@ -6,6 +6,7 @@ import { DiseaseInfo, DiseaseResponse } from '../models/disease';
 import { ClientRequestError } from 'src/common/errors/types/client.error';
 import * as HTTPUtil from '../../../../common/util/request';
 import { ExceptionInterceptor } from 'src/common/errors/interceptors/exception.interceptor';
+import { formatDate } from 'src/common/util/formatDate';
 
 @Injectable()
 @UseInterceptors(ExceptionInterceptor)
@@ -33,7 +34,7 @@ export class DiseaseService {
         country: response.country,
         todayCases: response.todayCases,
         todayDeaths: response.todayDeaths,
-        date: new Date(Date.now()).toLocaleDateString('pt-BR'),
+        date: formatDate(),
         active: response.active,
         critical: response.critical,
       };
