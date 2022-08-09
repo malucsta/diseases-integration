@@ -4,7 +4,7 @@ import db from './config/db';
 const config: TypeOrmModuleOptions = {
   type: 'postgres',
   port: db.port,
-  host: '0.0.0.0',
+  //host: '0.0.0.0',
   database: db.database,
   username: db.username,
   password: db.password,
