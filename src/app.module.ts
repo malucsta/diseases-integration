@@ -13,16 +13,6 @@ import source from 'datasource';
     DiseaseGoFileModule,
     ScheduleModule.forRoot(),
     TypeOrmModule.forRoot(config),
-    // TypeOrmModule.forRoot({
-    //   type: 'postgres',
-    //   //host: '0.0.0.0',
-    //   port: db.port,
-    //   database: db.database,
-    //   username: db.username,
-    //   password: db.password,
-    //   entities: [__dirname + '/**/*.entity{.js, .ts}'],
-    //   migrations: ['src/migrations/**/*{.ts,.js}'],
-    // }),
   ],
   controllers: [AppController],
   providers: [
