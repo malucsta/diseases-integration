@@ -39,7 +39,7 @@ npm run typeorm migration:run
 
 Run the project: 
 ```
-npm run start:dev
+npm run start
 ```
 
 
